@@ -1,29 +1,24 @@
 import { Controller, Get } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Logger } from 'nestjs-pino';
+import { UserService } from './auth/user/user.service';
 
 @Controller()
 export class AppController {
   constructor(
     private readonly configService: ConfigService,
+    private readonly userService: UserService,
     private readonly logger: Logger,
   ) {}
 
   @Get()
-  getHello(): any {
-    // pass message
-    this.logger.log('getHello()');
-
-    // also we can pass context
-    this.logger.log('getHello()', AppController.name);
-
+  async getInfo(): Promise<any> {
     const name = this.configService.get<string>('APP_NAME');
-    const db1 = this.configService.get<string>('DATABASE_PASSWORD');
-
+    const databaseUrl = this.configService.get<string>('DATABASE_URL');
+    this.logger.debug(`DB_URL: ${databaseUrl}`);
     return {
-      port: this.configService.get<string>('http.port'),
+      port: this.configService.get<string>('PORT'),
       name,
-      db1,
     };
   }
 }

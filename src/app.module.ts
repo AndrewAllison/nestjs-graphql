@@ -1,10 +1,12 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import configuration from './config/configuration';
 import * as Joi from '@hapi/joi';
 import { LoggerModule } from 'nestjs-pino';
+import { UserService } from './auth/user/user.service';
+import { PrismaService } from './prisma.service';
+import { UserController } from './auth/user/user.controller';
 
 const environment = process.env.NODE_ENV || 'local';
 
@@ -28,13 +30,11 @@ const environment = process.env.NODE_ENV || 'local';
           .default('development'),
         PORT: Joi.number().default(3000),
         APP_NAME: Joi.string().default('NestJs App'),
-        DATABASE_USER: Joi.string(),
-        DATABASE_PASSWORD: Joi.string(),
+        DATABASE_URL: Joi.string(),
       }),
     }),
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [AppController, UserController],
+  providers: [PrismaService, UserService],
 })
-export class AppModule {
-}
+export class AppModule {}
