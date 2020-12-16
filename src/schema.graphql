@@ -1,0 +1,32 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Query {
+  hello(name: String!): String!
+  helloWorld: String!
+  users(query: String, skip: Int!, take: Int!): UserResult!
+}
+
+type User {
+  accountType: String!
+
+  """Identifies the date and time when the object was created."""
+  createdAt: DateTime!
+  email: String!
+  firstName: String!
+  id: ID!
+  lastName: String!
+
+  """Identifies the date and time when the object was last updated."""
+  modifiedAt: DateTime!
+}
+
+type UserResult {
+  results: [User!]!
+}
